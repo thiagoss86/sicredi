@@ -1,0 +1,28 @@
+server:
+  port: ${SERVER_PORT:8080}
+  servlet:
+    context-path: /sicredi/v1
+  shutdown: graceful
+spring:
+  application:
+    name: ${APPLICATION_NAME:sicredi}
+  lifecycle:
+    timeout-per-shutdown-phase: 20s
+  profiles:
+    active: ${SPRING_ACTIVE_PROFILE:dev}
+  jpa:
+    database: mysql
+    show-sql: ${HIBERNATE_SHOW_SQL:true}
+    properties:
+      hibernate:
+        jdbc:
+          time-zone: ${HIBERNATE_JDBC_TIME_ZONE:UTC}
+        format-sql: ${HIBERNATE_FORMAT_SQL:false}
+  sql:
+    init:
+      platform: ${DATABASE:mariadb}
+  datasource:
+    driverClassName: ${DB_DRIVER_CLASS_NAME:org.mariadb.jdbc.Driver}
+    url: ${DATASOURCE_URL:jdbc:mariadb://localhost:3306/sicredi?useSSL=false}
+    username: ${DATASOURCE_USER_NAME:sicredi_user}
+    password: ${DATASOURCE_PASSWORD:sicredi_psw}
