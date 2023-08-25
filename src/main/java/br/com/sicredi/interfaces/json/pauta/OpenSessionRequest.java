@@ -1,4 +1,4 @@
-package br.com.sicredi.interfaces.json.schedule;
+package br.com.sicredi.interfaces.json.pauta;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;

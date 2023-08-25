@@ -1,6 +1,6 @@
-package br.com.sicredi.domain.vote;
+package br.com.sicredi.domain.voto;
 
-import br.com.sicredi.domain.schedule.Schedule;
+import br.com.sicredi.domain.pauta.Pauta;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -21,29 +21,29 @@ import lombok.ToString;
 import java.io.Serializable;
 
 @Entity
-@Table(name = "votes")
+@Table(name = "votos")
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(of = "id")
-public class Vote implements Serializable {
+public class Voto implements Serializable {
 
     @Id
-    @Column(name = "nr_id_votes", nullable = false)
+    @Column(name = "nr_id_voto", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "tx_associate_cpf", nullable = false, unique = true, length = 14)
     private String associateCpf;
 
-    @Column(name = "tx_vote_value", nullable = false, length = 3)
+    @Column(name = "tx_voto_value", nullable = false, length = 3)
     @Enumerated(EnumType.STRING)
-    private VoteValue voteValue;
+    private VotoValue votoValue;
 
     @ManyToOne
-    @JoinColumn(name = "nr_schedule_id")
+    @JoinColumn(name = "nr_pauta_id")
     @ToString.Exclude
-    private Schedule schedule;
+    private Pauta pauta;
 
 }

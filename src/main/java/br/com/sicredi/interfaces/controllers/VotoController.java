@@ -1,7 +1,7 @@
 package br.com.sicredi.interfaces.controllers;
 
-import br.com.sicredi.interfaces.json.vote.VotePutRequest;
-import br.com.sicredi.services.VoteService;
+import br.com.sicredi.interfaces.json.voto.VotoRequest;
+import br.com.sicredi.services.VotoService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -15,16 +15,16 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/votes")
 @RequiredArgsConstructor
 @Valid
-public class VoteController {
+public class VotoController {
 
-    private final VoteService voteService;
+    private final VotoService votoService;
 
     @PostMapping("/{scheduleId}")
     public ResponseEntity<String> registerVote(
             @PathVariable Long scheduleId,
-            @RequestBody @Valid VotePutRequest putRequest) throws Exception {
+            @RequestBody @Valid VotoRequest putRequest) throws Exception {
 
-        voteService.registerVote(scheduleId, putRequest);
+        votoService.registerVoto(scheduleId, putRequest);
 
         return ResponseEntity.ok("Voto registado com sucesso");
     }

@@ -1,4 +1,4 @@
-package br.com.sicredi.interfaces.json.schedule;
+package br.com.sicredi.interfaces.json.pauta;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
@@ -11,7 +11,7 @@ import org.hibernate.validator.constraints.Length;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class SchedulePutRequest {
+public class PautaRequest {
 
     @NotBlank
     @Length(max = 100)

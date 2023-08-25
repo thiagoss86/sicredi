@@ -1,8 +1,8 @@
 package br.com.sicredi.interfaces.controllers;
 
-import br.com.sicredi.interfaces.json.schedule.OpenSessionRequest;
-import br.com.sicredi.interfaces.json.schedule.SchedulePutRequest;
-import br.com.sicredi.services.ScheduleService;
+import br.com.sicredi.interfaces.json.pauta.OpenSessionRequest;
+import br.com.sicredi.interfaces.json.pauta.PautaRequest;
+import br.com.sicredi.services.PautaService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -18,15 +18,15 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/schedulers")
 @RequiredArgsConstructor
 @Valid
-public class ScheduleController {
+public class PautaController {
 
-    private final ScheduleService scheduleService;
+    private final PautaService pautaService;
 
     @PostMapping
     public ResponseEntity<Void> postSchedule(
-            @RequestBody @Valid SchedulePutRequest putRequest) {
+            @RequestBody @Valid PautaRequest putRequest) {
 
-        var newScheduleId = scheduleService.createNewSchedule(putRequest);
+        var newScheduleId = pautaService.createNewPauta(putRequest);
 
         return ResponseEntity.status(HttpStatus.CREATED)
                 .header("id", newScheduleId).build();
@@ -37,7 +37,7 @@ public class ScheduleController {
             @PathVariable Long scheduleId,
             @RequestBody @Valid OpenSessionRequest sessionRequest) throws Exception {
 
-        scheduleService.openNewSession(scheduleId, sessionRequest);
+        pautaService.openNewSession(scheduleId, sessionRequest);
 
         return ResponseEntity.ok("Sessão aberta com sucesso!");
     }

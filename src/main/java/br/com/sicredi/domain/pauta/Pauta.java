@@ -1,6 +1,6 @@
-package br.com.sicredi.domain.schedule;
+package br.com.sicredi.domain.pauta;
 
-import br.com.sicredi.domain.vote.Vote;
+import br.com.sicredi.domain.voto.Voto;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -27,30 +27,30 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "schedules")
+@Table(name = "pautas")
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(of = "id")
 @Where(clause = "tx_session_status != 'TERMINATED'")
-public class Schedule  implements Serializable {
+public class Pauta implements Serializable {
 
     @Id
-    @Column(name = "nr_id_schedule", nullable = false)
+    @Column(name = "nr_id_pauta", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "tx_name", nullable = false, length = 100)
     private String name;
 
-    @OneToMany(mappedBy = "schedule", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
-    private List<Vote> votes = new ArrayList<>();
+    @OneToMany(mappedBy = "pauta", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    private List<Voto> votos = new ArrayList<>();
 
     @ColumnDefault("CLOSED")
     @Column(name = "tx_session_status", length = 10)
     @Enumerated(EnumType.STRING)
-    private ScheduleSessionStatus sessionStatus;
+    private PautaSessionStatus sessionStatus;
 
     @Column(name = "dt_limit_time")
     @JsonFormat(pattern = "dd/MM/yyyy HH:mm:ss", shape = JsonFormat.Shape.STRING)
