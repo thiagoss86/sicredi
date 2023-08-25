@@ -11,7 +11,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.support.SessionStatus;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
@@ -38,20 +37,31 @@ public class ScheduleServiceImpl implements ScheduleService {
     public void openNewSession(Long scheduleId, OpenSessionRequest sessionRequest) throws Exception {
         log.info("Opening a new session for schedule with id:{}", scheduleId);
 
-        var schedule = findClosedScheduleById(scheduleId);
+        var schedule = getScheduleById(scheduleId);
+
+        validAndOpenScheduleSession(schedule);
 
         Optional.ofNullable(sessionRequest.getLimitTime())
                 .ifPresentOrElse(schedule::setLimitTime,
                         () -> schedule.setLimitTime(LocalDateTime.now().plusMinutes(1)));
 
-        schedule.setSessionStatus(ScheduleSessionStatus.OPEN);
-
         scheduleRepository.save(schedule);
         log.info("Session is open with time limit of:{}", schedule.getLimitTime());
     }
 
-    private Schedule findClosedScheduleById(Long scheduleId) throws Exception {
-        return scheduleRepository.findByIdAndSessionStatus(scheduleId, ScheduleSessionStatus.CLOSED)
+    private Schedule getScheduleById(Long scheduleId) throws Exception {
+        return scheduleRepository.findById(scheduleId)
                 .orElseThrow(() -> new Exception("Schedule not found"));
+    }
+
+    private void validAndOpenScheduleSession(Schedule schedule) throws Exception {
+        log.info("Validating if schedule is already opened");
+
+        if (schedule.getSessionStatus().equals(ScheduleSessionStatus.OPEN)) {
+            log.error("Session for schedule with id:{} is already open", schedule.getId());
+            throw new Exception("Sessão já está aberta!");
+        }
+
+        schedule.setSessionStatus(ScheduleSessionStatus.OPEN);
     }
 }
