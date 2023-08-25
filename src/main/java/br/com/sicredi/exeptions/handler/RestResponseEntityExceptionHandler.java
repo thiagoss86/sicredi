@@ -45,7 +45,7 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
     private final MessageError messageError;
 
     private static final String DETAIL = "%s - Detail: %s";
-    
+
     @ExceptionHandler(value = NotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     protected List<ApiError> handleNotFoundException(HttpServletRequest request, NotFoundException ex) {
