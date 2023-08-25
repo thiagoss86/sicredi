@@ -2,8 +2,8 @@ create table schedules
 (
     nr_id_schedule bigint auto_increment primary key,
     tx_name varchar(100) not null,
-    tx_status varchar(10) default 'ACTIVE' not null,
-    dt_limit_time datetime(6) not null
+    tx_session_status varchar(10) default 'CLOSED' not null,
+    dt_limit_time datetime(6) null
 );
 
 create table votes

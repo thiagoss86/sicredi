@@ -45,10 +45,10 @@ public class Schedule  implements Serializable {
     @OneToMany(mappedBy = "schedule", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     private List<Vote> votes = new ArrayList<>();
 
-    @ColumnDefault("ACTIVE")
-    @Column(name = "tx_status", nullable = false, length = 10)
+    @ColumnDefault("CLOSED")
+    @Column(name = "tx_session_status", length = 10)
     @Enumerated(EnumType.STRING)
-    private ScheduleStatus status;
+    private ScheduleSessionStatus sessionStatus;
 
     @Column(name = "dt_limit_time")
     @JsonFormat(pattern = "dd/MM/yyyy HH:mm:ss", shape = JsonFormat.Shape.STRING)

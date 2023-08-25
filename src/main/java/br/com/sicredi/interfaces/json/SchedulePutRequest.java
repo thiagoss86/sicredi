@@ -1,13 +1,11 @@
 package br.com.sicredi.interfaces.json;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.time.LocalDateTime;
+import org.hibernate.validator.constraints.Length;
 
 @Data
 @Builder
@@ -16,8 +14,6 @@ import java.time.LocalDateTime;
 public class SchedulePutRequest {
 
     @NotBlank
+    @Length(max = 100)
     private String name;
-
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy HH:mm:ss")
-    private LocalDateTime limitTime;
 }
