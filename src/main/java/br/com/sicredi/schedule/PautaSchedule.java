@@ -1,7 +1,6 @@
 package br.com.sicredi.schedule;
 
 import br.com.sicredi.domain.pauta.Pauta;
-import br.com.sicredi.domain.pauta.PautaSessionStatus;
 import br.com.sicredi.services.PautaService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,7 +18,8 @@ public class PautaSchedule {
 
     private final PautaService pautaService;
 
-    @Scheduled(cron = "0 0 12", zone = "America/Sao_Paulo")
+
+    @Scheduled(fixedDelay = 5000)//cron = "0 0 12", zone = "America/Sao_Paulo"
     public void verifyPautas() {
         pautaService.getAllOpenPautas()
                 .forEach(this::closePautaAndSend);
@@ -27,8 +27,7 @@ public class PautaSchedule {
 
     private void closePautaAndSend(Pauta pauta) {
         if(pauta.getLimitTime().isBefore(LocalDateTime.now())) {
-            pauta.setSessionStatus(PautaSessionStatus.TERMINATED);
-            pautaService.updatePauta(pauta);
+            pautaService.updatePautaAndSendMessage(pauta);
         }
     }
 }

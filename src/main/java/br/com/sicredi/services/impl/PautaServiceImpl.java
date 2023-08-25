@@ -3,8 +3,11 @@ package br.com.sicredi.services.impl;
 import br.com.sicredi.converters.PautaConverter;
 import br.com.sicredi.domain.pauta.Pauta;
 import br.com.sicredi.domain.pauta.PautaSessionStatus;
+import br.com.sicredi.domain.voto.VotoValue;
+import br.com.sicredi.interfaces.json.kafka.PautaResult;
 import br.com.sicredi.interfaces.json.pauta.OpenSessionRequest;
 import br.com.sicredi.interfaces.json.pauta.PautaRequest;
+import br.com.sicredi.kafka.KafkaProducer;
 import br.com.sicredi.repositories.PautaRepository;
 import br.com.sicredi.services.PautaService;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +25,7 @@ import java.util.Optional;
 public class PautaServiceImpl implements PautaService {
 
     private final PautaRepository pautaRepository;
+    private final KafkaProducer kafkaProducer;
 
     @Override
     @Transactional
@@ -65,8 +69,20 @@ public class PautaServiceImpl implements PautaService {
 
     @Override
     @Transactional
-    public void updatePauta(Pauta pauta) {
+    public void updatePautaAndSendMessage(Pauta pauta) {
+        log.info("Fechando a pauta e contabilizando os votos.");
+
+        var pautaResult = new PautaResult(
+                pauta.getId(),
+                pauta.getVotos().stream().filter(voto -> voto.getVotoValue().equals(VotoValue.SIM)).count(),
+                pauta.getVotos().stream().filter(voto -> voto.getVotoValue().equals(VotoValue.NAO)).count()
+        );
+
+        pauta.setSessionStatus(PautaSessionStatus.TERMINATED);
         pautaRepository.save(pauta);
+
+        log.info("Pauta encerrada com sucesso!");
+        kafkaProducer.sendPautaResults(pautaResult);
     }
 
     private void validatePautaStatus(Pauta pauta) throws Exception {

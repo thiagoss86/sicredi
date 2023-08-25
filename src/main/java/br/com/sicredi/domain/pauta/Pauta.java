@@ -44,7 +44,7 @@ public class Pauta implements Serializable {
     @Column(name = "tx_name", nullable = false, length = 100)
     private String name;
 
-    @OneToMany(mappedBy = "pauta", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    @OneToMany(mappedBy = "pauta", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
     private List<Voto> votos = new ArrayList<>();
 
     @ColumnDefault("CLOSED")

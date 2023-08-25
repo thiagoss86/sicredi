@@ -12,14 +12,18 @@ import org.springframework.stereotype.Service;
 import java.text.MessageFormat;
 
 @Service
-@RequiredArgsConstructor
 @Slf4j
 public class KafkaProducerImpl implements KafkaProducer {
 
     private final KafkaTemplate<String, PautaResult> kafkaTemplate;
-
-    @Value("${kafka.topic.vote-result}")
     private final String topicName;
+
+    public KafkaProducerImpl(
+            final KafkaTemplate<String, PautaResult> kafkaTemplate,
+            @Value("${kafka.topic.vote-result}") String topicName) {
+        this.kafkaTemplate = kafkaTemplate;
+        this.topicName = topicName;
+    }
 
     @Override
     @Async

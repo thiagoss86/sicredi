@@ -16,5 +16,5 @@ public interface PautaService {
 
     List<Pauta> getAllOpenPautas();
 
-    void updatePauta(Pauta pauta);
+    void updatePautaAndSendMessage(Pauta pauta);
 }
