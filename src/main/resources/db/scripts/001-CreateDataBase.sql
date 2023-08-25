@@ -13,7 +13,5 @@ create table votos
     tx_voto_value varchar(3) not null,
     nr_pauta_id bigint not null,
     constraint voto_pauta_idfk
-        foreign key (nr_pauta_id) references pautas (nr_id_pauta),
-    constraint tx_associate_cpf
-        unique (tx_associate_cpf)
+        foreign key (nr_pauta_id) references pautas (nr_id_pauta)
 );

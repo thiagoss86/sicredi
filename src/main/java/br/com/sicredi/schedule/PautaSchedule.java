@@ -1,3 +1,4 @@
+/*
 package br.com.sicredi.schedule;
 
 import br.com.sicredi.domain.pauta.Pauta;
@@ -30,3 +31,4 @@ public class PautaSchedule {
         }
     }
 }
+*/
