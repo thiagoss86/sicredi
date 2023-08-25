@@ -22,7 +22,7 @@ import java.io.Serializable;
 import java.util.UUID;
 
 @Entity
-@Table(name = "VOTES")
+@Table(name = "votes")
 @Data
 @Builder
 @AllArgsConstructor
@@ -31,22 +31,22 @@ import java.util.UUID;
 public class Vote implements Serializable {
 
     @Id
-    @Column(name = "ID", nullable = false)
+    @Column(name = "tx_id_votes", nullable = false)
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @Column(name = "ASSOCIATE_ID", nullable = false, unique = true)
+    @Column(name = "tx_associate_id", nullable = false, unique = true)
     private UUID associateId;
 
-    @Column(name = "CPF", nullable = false, unique = true)
+    @Column(name = "tx_associate_cpf", nullable = false, unique = true, length = 11)
     private String associateCpf;
 
-    @Column(name = "VALUE", nullable = false)
+    @Column(name = "tx_vote_value", nullable = false, length = 3)
     @Enumerated(EnumType.STRING)
     private VoteValue voteValue;
 
     @ManyToOne
-    @JoinColumn(name = "ID_SCHEDULE")
+    @JoinColumn(name = "tx_schedule_id")
     @ToString.Exclude
     private Schedule schedule;
 

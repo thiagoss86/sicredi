@@ -26,3 +26,7 @@ spring:
     url: ${DATASOURCE_URL:jdbc:mariadb://localhost:3306/sicredi?useSSL=false}
     username: ${DATASOURCE_USER_NAME:sicredi_user}
     password: ${DATASOURCE_PASSWORD:sicredi_psw}
+  liquibase:
+    enabled: true
+    change-log: classpath:/db/changelog/db-master.xml
+    contexts: ${SPRING_ACTIVE_PROFILE:dev}
