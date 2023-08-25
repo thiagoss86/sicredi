@@ -37,7 +37,7 @@ public class ScheduleServiceImpl implements ScheduleService {
     public void openNewSession(Long scheduleId, OpenSessionRequest sessionRequest) throws Exception {
         log.info("Opening a new session for schedule with id:{}", scheduleId);
 
-        var schedule = getScheduleById(scheduleId);
+        var schedule = getSchedule(scheduleId);
 
         validAndOpenScheduleSession(schedule);
 
@@ -49,7 +49,9 @@ public class ScheduleServiceImpl implements ScheduleService {
         log.info("Session is open with time limit of:{}", schedule.getLimitTime());
     }
 
-    private Schedule getScheduleById(Long scheduleId) throws Exception {
+    @Override
+    @Transactional(readOnly = true)
+    public Schedule getSchedule(Long scheduleId) throws Exception {
         return scheduleRepository.findById(scheduleId)
                 .orElseThrow(() -> new Exception("Schedule not found"));
     }

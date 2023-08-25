@@ -19,7 +19,6 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import java.io.Serializable;
-import java.util.UUID;
 
 @Entity
 @Table(name = "votes")
@@ -34,9 +33,6 @@ public class Vote implements Serializable {
     @Column(name = "nr_id_votes", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @Column(name = "tx_associate_id", nullable = false, unique = true)
-    private UUID associateId;
 
     @Column(name = "tx_associate_cpf", nullable = false, unique = true, length = 11)
     private String associateCpf;
