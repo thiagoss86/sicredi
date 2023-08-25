@@ -1,6 +1,6 @@
 package br.com.sicredi.domain.vote;
 
-import br.com.sicredi.domain.Schedule.Schedule;
+import br.com.sicredi.domain.schedule.Schedule;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;

@@ -1,4 +1,4 @@
-package br.com.sicredi.domain.Schedule;
+package br.com.sicredi.domain.schedule;
 
 import br.com.sicredi.domain.vote.Vote;
 import com.fasterxml.jackson.annotation.JsonFormat;

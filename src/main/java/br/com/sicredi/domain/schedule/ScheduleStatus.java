@@ -1,4 +1,4 @@
-package br.com.sicredi.domain.Schedule;
+package br.com.sicredi.domain.schedule;
 
 public enum ScheduleStatus {
     ACTIVE, INACTIVE
