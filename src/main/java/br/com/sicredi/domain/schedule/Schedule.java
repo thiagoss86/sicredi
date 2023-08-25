@@ -21,10 +21,9 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.ColumnDefault;
 
 import java.io.Serializable;
-import java.time.ZonedDateTime;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 @Entity
 @Table(name = "schedules")
@@ -36,9 +35,9 @@ import java.util.UUID;
 public class Schedule  implements Serializable {
 
     @Id
-    @Column(name = "tx_id_schedule", nullable = false)
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID id;
+    @Column(name = "nr_id_schedule", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @Column(name = "tx_name", nullable = false, length = 100)
     private String name;
@@ -53,6 +52,6 @@ public class Schedule  implements Serializable {
 
     @Column(name = "dt_limit_time")
     @JsonFormat(pattern = "dd/MM/yyyy HH:mm:ss", shape = JsonFormat.Shape.STRING)
-    private ZonedDateTime limitTime;
+    private LocalDateTime limitTime;
 
 }

@@ -31,9 +31,9 @@ import java.util.UUID;
 public class Vote implements Serializable {
 
     @Id
-    @Column(name = "tx_id_votes", nullable = false)
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID id;
+    @Column(name = "nr_id_votes", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @Column(name = "tx_associate_id", nullable = false, unique = true)
     private UUID associateId;
@@ -46,7 +46,7 @@ public class Vote implements Serializable {
     private VoteValue voteValue;
 
     @ManyToOne
-    @JoinColumn(name = "tx_schedule_id")
+    @JoinColumn(name = "nr_schedule_id")
     @ToString.Exclude
     private Schedule schedule;
 
