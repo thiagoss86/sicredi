@@ -9,7 +9,7 @@ create table schedules
 create table votes
 (
     nr_id_votes bigint auto_increment primary key,
-    tx_associate_cpf varchar(11) not null,
+    tx_associate_cpf varchar(14) not null,
     tx_vote_value varchar(3) not null,
     nr_schedule_id bigint not null,
     constraint votes_schedule_idfk

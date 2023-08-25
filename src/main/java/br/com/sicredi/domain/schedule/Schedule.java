@@ -33,7 +33,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(of = "id")
-@Where(clause = "tx_session_status != TERMINATED")
+@Where(clause = "tx_session_status != 'TERMINATED'")
 public class Schedule  implements Serializable {
 
     @Id

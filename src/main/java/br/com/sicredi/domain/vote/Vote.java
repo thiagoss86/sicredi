@@ -34,7 +34,7 @@ public class Vote implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "tx_associate_cpf", nullable = false, unique = true, length = 11)
+    @Column(name = "tx_associate_cpf", nullable = false, unique = true, length = 14)
     private String associateCpf;
 
     @Column(name = "tx_vote_value", nullable = false, length = 3)

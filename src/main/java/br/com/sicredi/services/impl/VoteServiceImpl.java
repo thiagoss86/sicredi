@@ -38,12 +38,12 @@ public class VoteServiceImpl implements VoteService {
     private void validUserIsAbleToVote(String cpf, Schedule schedule) throws Exception {
 
         if (schedule.getSessionStatus().equals(ScheduleSessionStatus.CLOSED)) {
-            log.error("Erro ao registrar o voto, a sessão com id:{} já se encontra fechada", schedule.getId());
+            log.error("Erro ao registrar o voto, a sessão com id:{} encontra fechada", schedule.getId());
 
             throw new Exception("Sessão já se encontra encerrada");
         }
 
-        if (voteRepository.existsByCpfAndSchedule(cpf, schedule)) {
+        if (Boolean.TRUE.equals(voteRepository.existsByAssociateCpfAndSchedule(cpf, schedule))) {
             log.error("Usuário de cpf:{} já votou nesta sessão de id:{}", cpf, schedule.getId());
 
             throw new Exception("Usuario já realizou a votação nesta sessão");
