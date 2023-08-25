@@ -2,7 +2,7 @@ package br.com.sicredi.converters;
 
 import br.com.sicredi.domain.schedule.Schedule;
 import br.com.sicredi.domain.schedule.ScheduleSessionStatus;
-import br.com.sicredi.interfaces.json.SchedulePutRequest;
+import br.com.sicredi.interfaces.json.schedule.SchedulePutRequest;
 
 public class SchedulerConverter {
 
@@ -14,4 +14,5 @@ public class SchedulerConverter {
                 .sessionStatus(ScheduleSessionStatus.CLOSED)
                 .build();
     }
+
 }

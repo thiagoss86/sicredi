@@ -1,4 +1,4 @@
-package br.com.sicredi.interfaces.json;
+package br.com.sicredi.interfaces.json.schedule;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
