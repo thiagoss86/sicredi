@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -54,6 +55,18 @@ public class PautaServiceImpl implements PautaService {
     public Pauta getPauta(Long scheduleId) throws Exception {
         return pautaRepository.findById(scheduleId)
                 .orElseThrow(() -> new Exception("Schedule not found"));
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<Pauta> getAllOpenPautas() {
+        return pautaRepository.findAllBySessionStatus(PautaSessionStatus.OPEN);
+    }
+
+    @Override
+    @Transactional
+    public void updatePauta(Pauta pauta) {
+        pautaRepository.save(pauta);
     }
 
     private void validatePautaStatus(Pauta pauta) throws Exception {
