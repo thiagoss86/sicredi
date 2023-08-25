@@ -22,7 +22,7 @@ public class VotoController {
     @PostMapping("/{scheduleId}")
     public ResponseEntity<String> registerVote(
             @PathVariable Long scheduleId,
-            @RequestBody @Valid VotoRequest putRequest) throws Exception {
+            @RequestBody @Valid VotoRequest putRequest) {
 
         votoService.registerVoto(scheduleId, putRequest);
 

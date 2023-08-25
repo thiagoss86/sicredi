@@ -4,5 +4,5 @@ import br.com.sicredi.interfaces.json.voto.VotoRequest;
 
 public interface VotoService {
 
-    void registerVoto(Long scheduleId, VotoRequest votoRequest) throws Exception;
+    void registerVoto(Long scheduleId, VotoRequest votoRequest);
 }

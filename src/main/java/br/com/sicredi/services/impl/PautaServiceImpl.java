@@ -4,6 +4,9 @@ import br.com.sicredi.converters.PautaConverter;
 import br.com.sicredi.domain.pauta.Pauta;
 import br.com.sicredi.domain.pauta.PautaSessionStatus;
 import br.com.sicredi.domain.voto.VotoValue;
+import br.com.sicredi.exeptions.ErrorCode;
+import br.com.sicredi.exeptions.NotFoundException;
+import br.com.sicredi.exeptions.UnprocessableEntityException;
 import br.com.sicredi.interfaces.json.kafka.PautaResult;
 import br.com.sicredi.interfaces.json.pauta.OpenSessionRequest;
 import br.com.sicredi.interfaces.json.pauta.PautaRequest;
@@ -30,7 +33,7 @@ public class PautaServiceImpl implements PautaService {
     @Override
     @Transactional
     public String createNewPauta(PautaRequest putRequest) {
-        log.info("Creating a new schedule with properties: {}", putRequest.toString());
+        log.info("Criando uma nova pauta com o nome: {}", putRequest.getName());
 
         var newPauta = PautaConverter.toDomain(putRequest);
 
@@ -39,10 +42,12 @@ public class PautaServiceImpl implements PautaService {
 
     @Override
     @Transactional
-    public void openNewSession(Long scheduleId, OpenSessionRequest sessionRequest) throws Exception {
-        log.info("Opening a new session for pauta with id:{}", scheduleId);
+    public void openNewSession(Long scheduleId, OpenSessionRequest sessionRequest) {
+        log.info("Iniciando abertura da sessão.");
 
         var pauta = getPauta(scheduleId);
+
+        log.info("Pauta:{}, abrindo sessão", pauta.getName());
 
         validatePautaStatus(pauta);
 
@@ -51,26 +56,30 @@ public class PautaServiceImpl implements PautaService {
                         () -> pauta.setLimitTime(LocalDateTime.now().plusMinutes(1)));
 
         pautaRepository.save(pauta);
-        log.info("Session is open with time limit of:{}", pauta.getLimitTime());
+        log.info("Sessão aberta para a pauta:{} com o data limite para:{}", pauta.getName(), pauta.getLimitTime());
     }
 
     @Override
     @Transactional(readOnly = true)
-    public Pauta getPauta(Long scheduleId) throws Exception {
-        return pautaRepository.findById(scheduleId)
-                .orElseThrow(() -> new Exception("Schedule not found"));
+    public Pauta getPauta(Long pautaId) {
+        log.debug("Buscando pauta com o id:{}", pautaId);
+
+        return pautaRepository.findById(pautaId)
+                .orElseThrow(() -> new NotFoundException(ErrorCode.PAUTA_NOT_FOUND));
     }
 
     @Override
     @Transactional(readOnly = true)
     public List<Pauta> getAllOpenPautas() {
+        log.info("Buscando todas as pautas abertas.");
+
         return pautaRepository.findAllBySessionStatus(PautaSessionStatus.OPEN);
     }
 
     @Override
     @Transactional
     public void updatePautaAndSendMessage(Pauta pauta) {
-        log.info("Fechando a pauta e contabilizando os votos.");
+        log.info("Fechando a pauta:{} e contabilizando os votos.", pauta.getName());
 
         var pautaResult = new PautaResult(
                 pauta.getId(),
@@ -85,12 +94,12 @@ public class PautaServiceImpl implements PautaService {
         kafkaProducer.sendPautaResults(pautaResult);
     }
 
-    private void validatePautaStatus(Pauta pauta) throws Exception {
-        log.info("Validating if schedule is already opened");
+    private void validatePautaStatus(Pauta pauta) {
+        log.info("Validando se a pauta:{} está aberta", pauta.getName());
 
         if (pauta.getSessionStatus().equals(PautaSessionStatus.OPEN)) {
-            log.error("Session for schedule with id:{} is already open", pauta.getId());
-            throw new Exception("Sessão já está aberta!");
+            log.error("Já existe uma sessão aberta para esta pauta:{}", pauta.getName());
+            throw new UnprocessableEntityException(ErrorCode.PAUTA_ALREADY_OPEN);
         }
 
         pauta.setSessionStatus(PautaSessionStatus.OPEN);

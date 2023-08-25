@@ -35,7 +35,7 @@ public class PautaController {
     @PutMapping("/{scheduleId}")
     public ResponseEntity<String> openSession(
             @PathVariable Long scheduleId,
-            @RequestBody @Valid OpenSessionRequest sessionRequest) throws Exception {
+            @RequestBody @Valid OpenSessionRequest sessionRequest) {
 
         pautaService.openNewSession(scheduleId, sessionRequest);
 

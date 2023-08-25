@@ -18,8 +18,7 @@ public class PautaSchedule {
 
     private final PautaService pautaService;
 
-
-    @Scheduled(fixedDelay = 5000)//cron = "0 0 12", zone = "America/Sao_Paulo"
+    @Scheduled(fixedDelay = 5000)
     public void verifyPautas() {
         pautaService.getAllOpenPautas()
                 .forEach(this::closePautaAndSend);

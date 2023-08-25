@@ -3,6 +3,8 @@ package br.com.sicredi.services.impl;
 import br.com.sicredi.converters.VotoConverter;
 import br.com.sicredi.domain.pauta.Pauta;
 import br.com.sicredi.domain.pauta.PautaSessionStatus;
+import br.com.sicredi.exeptions.ErrorCode;
+import br.com.sicredi.exeptions.UnprocessableEntityException;
 import br.com.sicredi.interfaces.json.voto.VotoRequest;
 import br.com.sicredi.repositories.VotoRepository;
 import br.com.sicredi.services.PautaService;
@@ -23,30 +25,30 @@ public class VotoServiceImpl implements VotoService {
 
     @Override
     @Transactional
-    public void registerVoto(Long scheduleId, VotoRequest votoRequest) throws Exception {
-        log.info("Registering vote for user:{} on schedule:{}", votoRequest.getCpf(), scheduleId);
+    public void registerVoto(Long scheduleId, VotoRequest votoRequest) {
+        log.info("Iniciando registro de votação");
 
-        var schedule = pautaService.getPauta(scheduleId);
+        var pauta = pautaService.getPauta(scheduleId);
 
-        validUserIsAbleToVote(votoRequest.getCpf(), schedule);
+        log.info("Iniciando votação do usuario na pauta:{}", pauta.getName());
 
-        var newVote = VotoConverter.toDomain(votoRequest, schedule);
+        validUserIsAbleToVote(votoRequest.getCpf(), pauta);
+
+        var newVote = VotoConverter.toDomain(votoRequest, pauta);
 
         votoRepository.save(newVote);
     }
 
-    private void validUserIsAbleToVote(String cpf, Pauta pauta) throws Exception {
+    private void validUserIsAbleToVote(String cpf, Pauta pauta) {
 
         if (pauta.getSessionStatus().equals(PautaSessionStatus.CLOSED)) {
-            log.error("Erro ao registrar o voto, a sessão com id:{} encontra fechada", pauta.getId());
-
-            throw new Exception("Sessão já se encontra encerrada");
+            log.error("Erro ao registrar o voto, a sessão encontra-se encerrada para a pauta:{}.", pauta.getId());
+            throw new UnprocessableEntityException(ErrorCode.PAUTA_ALREADY_CLOSED);
         }
 
         if (Boolean.TRUE.equals(votoRepository.existsByAssociateCpfAndPauta(cpf, pauta))) {
-            log.error("Usuário de cpf:{} já votou nesta sessão de id:{}", cpf, pauta.getId());
-
-            throw new Exception("Usuario já realizou a votação nesta sessão");
+            log.error("O usúario já realizou a votação na pauta:{}", pauta.getName());
+            throw new UnprocessableEntityException(ErrorCode.ASSOCIATED_ALREADY_VOTE);
         }
     }
 }

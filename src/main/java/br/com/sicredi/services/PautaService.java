@@ -10,9 +10,9 @@ public interface PautaService {
 
     String createNewPauta(PautaRequest putRequest);
 
-    void openNewSession(Long scheduleId, OpenSessionRequest sessionRequest) throws Exception;
+    void openNewSession(Long scheduleId, OpenSessionRequest sessionRequest);
 
-    Pauta getPauta(Long scheduleId) throws Exception;
+    Pauta getPauta(Long scheduleId);
 
     List<Pauta> getAllOpenPautas();
 
