@@ -30,3 +30,11 @@ spring:
     enabled: true
     change-log: classpath:/db/changelog/db-master.xml
     contexts: ${SPRING_ACTIVE_PROFILE:dev}
+
+kafka:
+  producer:
+    bootstrap-servers: localhost:9092
+    key-serializer: org.apache.kafka.common.serialization.StringSerializer
+    value-serializer: org.apache.kafka.common.serialization.StringSerializer
+  topic:
+    vote-result: ${KAFKA_VOTE_TOPIC:vote-result-topic}
