@@ -32,12 +32,12 @@ public class PautaServiceImpl implements PautaService {
 
     @Override
     @Transactional
-    public String createNewPauta(PautaRequest putRequest) {
+    public Pauta createNewPauta(PautaRequest putRequest) {
         log.info("Criando uma nova pauta com o nome: {}", putRequest.getName());
 
         var newPauta = PautaConverter.toDomain(putRequest);
 
-        return String.valueOf(pautaRepository.save(newPauta).getId());
+        return pautaRepository.save(newPauta);
     }
 
     @Override
@@ -64,7 +64,7 @@ public class PautaServiceImpl implements PautaService {
     public Pauta getPauta(Long pautaId) {
         log.debug("Buscando pauta com o id:{}", pautaId);
 
-        return pautaRepository.findById(pautaId)
+        return this.pautaRepository.findById(pautaId)
                 .orElseThrow(() -> new NotFoundException(ErrorCode.PAUTA_NOT_FOUND));
     }
 

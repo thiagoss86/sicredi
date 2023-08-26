@@ -26,10 +26,10 @@ public class PautaController {
     public ResponseEntity<Void> postSchedule(
             @RequestBody @Valid PautaRequest putRequest) {
 
-        var newScheduleId = pautaService.createNewPauta(putRequest);
+        var newPauta = pautaService.createNewPauta(putRequest);
 
         return ResponseEntity.status(HttpStatus.CREATED)
-                .header("id", newScheduleId).build();
+                .header("id", String.valueOf(newPauta.getId())).build();
     }
 
     @PutMapping("/{scheduleId}")

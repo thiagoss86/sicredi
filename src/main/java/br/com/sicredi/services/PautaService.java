@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface PautaService {
 
-    String createNewPauta(PautaRequest putRequest);
+    Pauta createNewPauta(PautaRequest putRequest);
 
     void openNewSession(Long scheduleId, OpenSessionRequest sessionRequest);
 
