@@ -27,12 +27,11 @@ public class KafkaProducerImpl implements KafkaProducer {
     @Override
     @Async
     public void sendPautaResults(PautaResult pautaResult) {
-        try {
-            log.info("Enviando mensagem para o topico");
-            this.kafkaTemplate.send(topicName, pautaResult);
-        } catch (Exception ex) {
-            log.warn(MessageFormat.format("Erro ao enviar a mensagem para o topico=[{0}] erro=[{1}]",
-                    topicName, ExceptionUtils.getRootCause(ex)));
-        }
+        log.info("Enviando mensagem para o topico.");
+
+        this.kafkaTemplate.send(topicName, pautaResult);
+
+        log.info("Mensagem enviada com sucesso.");
+
     }
 }
