@@ -30,6 +30,8 @@ spring:
     enabled: true
     change-log: classpath:/db/changelog/db-master.xml
     contexts: ${SPRING_ACTIVE_PROFILE:dev}
+  spring-doc:
+    packagesToScan: br.com.sicredi
 
 kafka:
   producer:
