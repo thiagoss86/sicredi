@@ -12,20 +12,20 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/votes")
+@RequestMapping("/votos")
 @RequiredArgsConstructor
 @Valid
 public class VotoController {
 
     private final VotoService votoService;
 
-    @PostMapping("/{scheduleId}")
+    @PostMapping("/{pautaId}")
     public ResponseEntity<String> registerVote(
-            @PathVariable Long scheduleId,
-            @RequestBody @Valid VotoRequest putRequest) {
+            @PathVariable Long pautaId,
+            @RequestBody @Valid VotoRequest votoRequest) {
 
-        votoService.registerVoto(scheduleId, putRequest);
+        votoService.registerVoto(pautaId, votoRequest);
 
-        return ResponseEntity.ok("Voto registado com sucesso");
+        return ResponseEntity.ok("Voto registado com sucesso!");
     }
 }

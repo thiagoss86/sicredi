@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/schedulers")
+@RequestMapping("/pautas")
 @RequiredArgsConstructor
 @Valid
 public class PautaController {
@@ -23,21 +23,21 @@ public class PautaController {
     private final PautaService pautaService;
 
     @PostMapping
-    public ResponseEntity<Void> postSchedule(
-            @RequestBody @Valid PautaRequest putRequest) {
+    public ResponseEntity<Void> postPauta(
+            @RequestBody @Valid PautaRequest pautaRequest) {
 
-        var newPauta = pautaService.createNewPauta(putRequest);
+        var newPauta = pautaService.createNewPauta(pautaRequest);
 
         return ResponseEntity.status(HttpStatus.CREATED)
                 .header("id", String.valueOf(newPauta.getId())).build();
     }
 
-    @PutMapping("/{scheduleId}")
+    @PutMapping("/{pautaId}")
     public ResponseEntity<String> openSession(
-            @PathVariable Long scheduleId,
+            @PathVariable Long pautaId,
             @RequestBody @Valid OpenSessionRequest sessionRequest) {
 
-        pautaService.openNewSession(scheduleId, sessionRequest);
+        pautaService.openNewSession(pautaId, sessionRequest);
 
         return ResponseEntity.ok("Sessão aberta com sucesso!");
     }
