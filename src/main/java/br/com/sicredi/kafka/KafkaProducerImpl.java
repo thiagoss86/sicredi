@@ -1,7 +1,6 @@
 package br.com.sicredi.kafka;
 
 import br.com.sicredi.interfaces.json.kafka.PautaResult;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.beans.factory.annotation.Value;
@@ -28,12 +27,12 @@ public class KafkaProducerImpl implements KafkaProducer {
     @Override
     @Async
     public void sendPautaResults(PautaResult pautaResult) {
-        try{
+        try {
             log.info("Enviando mensagem para o topico");
             this.kafkaTemplate.send(topicName, pautaResult);
-        }catch (Exception ex) {
+        } catch (Exception ex) {
             log.warn(MessageFormat.format("Erro ao enviar a mensagem para o topico=[{0}] erro=[{1}]",
-                     topicName, ExceptionUtils.getRootCause(ex)));
+                    topicName, ExceptionUtils.getRootCause(ex)));
         }
     }
 }
