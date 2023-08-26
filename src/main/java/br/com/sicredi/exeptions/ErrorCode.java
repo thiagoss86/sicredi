@@ -12,7 +12,10 @@ public enum ErrorCode {
     //REGRAS DE NEGOCIO
     PAUTA_ALREADY_OPEN("422.001"),
     PAUTA_ALREADY_CLOSED("422.002"),
-    ASSOCIATED_ALREADY_VOTE("422.003");
+    ASSOCIATED_ALREADY_VOTE("422.003"),
+
+    //Integração
+    CPF_CLIENT_UNAVAILABLE("503.001");
 
     private final String code;
 }

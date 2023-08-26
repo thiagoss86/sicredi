@@ -1,5 +1,6 @@
 package br.com.sicredi.exeptions.handler;
 
+import br.com.sicredi.exeptions.CpfClientException;
 import br.com.sicredi.exeptions.MessageError;
 import br.com.sicredi.exeptions.MessageError.ApiError;
 import br.com.sicredi.exeptions.NotFoundException;
@@ -62,6 +63,14 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
         return List.of(apiError);
     }
 
+    @ExceptionHandler(value = CpfClientException.class)
+    @ResponseStatus(HttpStatus.SERVICE_UNAVAILABLE)
+    protected List<ApiError> handlerCpfClientUnavailableException(HttpServletRequest request, CpfClientException ex) {
+        var apiError = messageError.create(ex.getErrorCode().getCode());
+        log.error(apiError.description(), ex);
+        return List.of(apiError);
+    }
+
     @Override
     protected ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException ex,
                                                                   HttpHeaders headers,
@@ -79,7 +88,7 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
                             mie.getPath().stream()
                                     .map(p -> nonNull(p.getFieldName()) ? p.getFieldName() : MessageFormat.format(FIELD_MESSAGE_PATTERN, p.getIndex())).collect(joining()),
                             mie.getTargetType().getSimpleName())));
-        } else if(ex.getCause() instanceof JsonParseException jpe) {
+        } else if (ex.getCause() instanceof JsonParseException jpe) {
             errors.add(messageError.create(Messages.JSON_INVALID_FORMAT, jpe.getOriginalMessage()));
         }
 

@@ -40,3 +40,7 @@ kafka:
     value-serializer: org.apache.kafka.common.serialization.StringSerializer
   topic:
     vote-result: ${KAFKA_VOTE_TOPIC:vote-result-topic}
+
+web-client:
+  cpf-client:
+    url: https://user-info.herokuapp.com/users
