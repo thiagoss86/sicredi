@@ -25,10 +25,10 @@ public class VotoServiceImpl implements VotoService {
 
     @Override
     @Transactional
-    public void registerVoto(Long scheduleId, VotoRequest votoRequest) {
+    public void registerVoto(Long pautaId, VotoRequest votoRequest) {
         log.info("Iniciando registro de votação");
 
-        var pauta = pautaService.getPauta(scheduleId);
+        var pauta = pautaService.getPauta(pautaId);
 
         log.info("Iniciando votação do usuario na pauta:{}", pauta.getName());
 
